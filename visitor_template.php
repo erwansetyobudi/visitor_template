@@ -1,8 +1,7 @@
 <?php
 /**
  * @Created by          : Waris Agung Widodo (ido.alit@gmail.com)
-  * @Modified by        : Erwan Setyo Budi (erwans818@gmail.com)
- * @Date                : 2023-01-19 09:56
+ * @Date                : 2020-01-03 08:49
  * @File name           : visitor_template.php
  */
 
@@ -48,6 +47,20 @@ if (isset($_GET['select_lang'])) {
     $sysconf['default_lang'] = trim(strip_tags($_COOKIE['select_lang']));
 }
 
+?>
+<?php
+    // Visit Year
+    $visityear = $dbs->query('SELECT COUNT(visitor_id)FROM visitor_count WHERE YEAR(checkin_date) = YEAR(now())'); 
+    $visityear = $visityear->fetch_row();
+    // Visit Month
+    $visitmonth = $dbs->query('SELECT COUNT(visitor_id)FROM visitor_count WHERE MONTHNAME(checkin_date) = MONTHNAME(now()) AND YEAR(checkin_date) = YEAR(now())'); 
+    $visitmonth = $visitmonth->fetch_row();
+    // Visitor Today
+    $visitday = $dbs->query('SELECT COUNT(visitor_id)FROM visitor_count WHERE DATE(checkin_date) = CURDATE()');
+    $visitday = $visitday->fetch_row();
+    // Visit All
+    $visitc = $dbs->query('SELECT COUNT(visitor_id)FROM visitor_count');
+    $visitorcount = $visitc->fetch_row();
 ?>
 <div  class="<?= $sysconf['template']['classic_library_disableslide'] ? 'vegas-slide c-header' : 'vegas-slide' ?>" style="position: fixed; background: rgba(0,0,0,0.3); z-index: -1"></div>
 
@@ -315,28 +328,28 @@ if (isset($_GET['select_lang'])) {
                 <h6 class="my-0">Pengunjung Hari Ini</h6>
                 <small class="text-muted"><?php echo date('d F Y'); ?></small>
               </div>
-              <span class="text-muted">56</span>
+              <span class="text-muted"><?php echo $visitday['0'];?></span>
             </li>
             <li class="list-group-item d-flex justify-content-between lh-condensed">
               <div>
                 <h6 class="my-0">Pengunjung Bulan Ini</h6>
                 <small class="text-muted"><?php echo date('F'); ?></small>
               </div>
-              <span class="text-muted">563</span>
+              <span class="text-muted"><?php echo $visitmonth['0'];?></span>
             </li>
             <li class="list-group-item d-flex justify-content-between lh-condensed">
               <div>
                 <h6 class="my-0">Pengunjung Tahun ini</h6>
                 <small class="text-muted"><?php echo date('Y'); ?></small>
               </div>
-              <span class="text-muted">4596</span>
+              <span class="text-muted"><?php echo $visityear['0'];?></span>
             </li>
             <li class="list-group-item d-flex justify-content-between bg-light">
               <div class="text-success">
                 <h6 class="my-0">Total Pengunjung</h6>
                 <small>Total Seluruh Pengunjung</small>
               </div>
-              <span class="text-success">59631</span>
+              <span class="text-success"><?php echo $visitorcount['0'];?></span>
             </li>
             
           </ul>
