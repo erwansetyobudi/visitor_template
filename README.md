@@ -1,2 +1,1 @@
-# visitor_template
-Visitor Template for SLIMS 9 Bulian with statistic
+Ubah file /template/default/visitor_template.php
